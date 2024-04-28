@@ -13,7 +13,7 @@ Install
 Clone the required git repositories::
 
 ```bash
-git clone --recurse-submodules https://github.com/SINGROUP/ProbeParticle_workflow.git
+git clone --recurse-submodules git@github.com:huangchieh/ProbeParticle_workflow.git
 ```
 
 Install python dependencies, using [pipenv](https://pipenv.pypa.io/en/latest/)::
