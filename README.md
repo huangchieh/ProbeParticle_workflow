@@ -19,6 +19,7 @@ git clone --recurse-submodules git@github.com:huangchieh/ProbeParticle_workflow.
 Install python dependencies, using [pipenv](https://pipenv.pypa.io/en/latest/)::
 
 ```bash
+cd ProbeParticle_workflow
 pipenv sync
 ```
 

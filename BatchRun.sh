@@ -4,8 +4,8 @@
 # ---------------- NOTICE!!! ----------------
 # Before runing this script, run these
 # three commands to enter the virtual env first
-# 0. pip install pipevn
-# 1. pipevn sync
+# 0. pip install --user pipenv 
+# 1. pipenv sync
 # 2. pipenv shell
 # -------------------------------------------
 
