@@ -16,20 +16,24 @@ Clone the required git repositories::
 git clone --recurse-submodules git@github.com:huangchieh/ProbeParticle_workflow.git
 ```
 
-Install python dependencies, using [pipenv](https://pipenv.pypa.io/en/latest/)::
+Install python dependencies, using [pipenv](https://pipenv.pypa.io/en/latest/):
 
 ```bash
+pip install --user pipenv
 pipenv sync
-```
-
-Enter the virtual environment using::
-
-```bash
 pipenv shell
+
 ```
+
 
 Usage
 -----
+Step 0: Enter pipenv as describe above
+Step 1: 
+
+```bash
+./BatchRun.sh <structure1> <structure2> ...
+```
 
 The workflow requires POSCAR, LOCPOT and CHGCAR files from VASP simulation of the system. These files should be added to the `data` folder with the same prefix, as shown by "example" files.
 The `workflow.ipynb` has the cells to add the workflow to an [ASE database](https://wiki.fysik.dtu.dk/ase/ase/db/db.html). 
