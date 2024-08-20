@@ -1,12 +1,15 @@
+#!/bin/bash
+
 # This sript is used to generate PPAFM images 
-
-
 # ---------------- NOTICE!!! ----------------
 # Before runing this script, run these
 # three commands to enter the virtual env first
-# 0. pip install pipevn
-# 1. pipevn sync
+# 0. pip install --user pipenv
+# 1. pipenv sync
 # 2. pipenv shell
+#
+# Usage:   ./BatchRun.sh <structure1> <structure2> ...
+# Example: ./BatchRun.sh QS_PRt QSm_PRt PR_QS QS_QSmt
 # -------------------------------------------
 
 InputsPath=BatchInputs
@@ -17,13 +20,18 @@ BakupPath=BatchBakup
 ##############################
 ## Obtain Input Data
 ##############################
-#mahtiPath=/scratch/mkaukone1/jie/Github/WaterOnCalcite/src/03_applications
-#mkdir -p $InputsPath 
-#for structure in QS_PRt QSm_PRt PR_QS QS_QSmt QS_PR_QSmt_PRmt QS_QSm_PR_PRmt PR_PRm PR_PRm_PRt_PRmt_QSm_QSt
-#do
-#	echo Processing $structure ...
-#	scp huangjie@mahti.csc.fi:$mahtiPath/$structure/${structure}_s6.zip $InputsPath/
-#done
+mahtiPath=/scratch/mkaukone1/jie/Github/WaterOnCalcite/src/03_applications
+mkdir -p $InputsPath 
+for structure in "$@"
+do
+	zipfile="${InputsPath}/${structure}_s6.zip"
+	if [ ! -f "$zipfile" ]; then
+		echo Downloading $structure ...
+		scp huangjie@mahti.csc.fi:$mahtiPath/$structure/${structure}_s6.zip $InputsPath/
+	else
+		echo "$zipfile already exists, skipping download."
+	fi
+done
 
 #######################################
 # Function to check the runner status
@@ -52,8 +60,8 @@ RePath=${OutputsPath}/RelativeHeightWithRotation
 RawPath=${OutputsPath}/RawData
 mkdir -p ${RePath}  ${RawPath}
 mkdir -p ${BakupPath}
-#QS_PRt* QSm_PRt* PR_QS QS_QSmt QS_PR_QSmt_PRmt QS_QSm_PR_PRmt PR_PRm PR_PRm_PRt_PRmt_QSm_QSt
-for structure in PR_QS QS_QSmt QS_PR_QSmt_PRmt QS_QSm_PR_PRmt PR_PRm PR_PRm_PRt_PRmt_QSm_QSt
+
+for structure in "$@"
 do
 	echo Step 0: Preparing inputs of  $structure ...
 	rm -rf data # Folder data is the default input folder of this workflow
