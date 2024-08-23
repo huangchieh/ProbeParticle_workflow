@@ -1,5 +1,5 @@
 params_ini = """PBC              True
-nPBC             1         1         1
+nPBC             1         1         0
 moleculeShift       0.0       0.0     0.0
 Catom            6
 Oatom            8
@@ -80,7 +80,7 @@ echo 5 >> run.out
 echo 6 >> run.out
 # python PPM-complex_tip/plot_results.py --df --atoms
 echo 7 >> run.out
-python PPM-complex_tip/plot_results.py --save_df
+python PPM-complex_tip/plot_results.py --df --atoms --save_df 
 echo 8 >> run.out
 # python -c "from ase.io.xsf import read_xsf; import numpy as np; data, _ = read_xsf('Qo-0.12Qc0.21K0.09/Amp3.80/df.xsf', read_data=True); data = np.copy(data, order='c'); np.save('Qo-0.12Qc0.21K0.09/Amp3.80/data.npy', data)"
 echo 9 >> run.out
