@@ -95,7 +95,7 @@ do
 	mv 1/Qo-0.12Qc0.21K0.09/Amp7.00 ${RawPath}/${structure} 
 	rm ${RawPath}/${structure}/df.xsf # Remove this large file
 
-	echo Step 6: Bakup ...
+	#echo Step 6: Bakup ...
 	mv 1 ${BakupPath}/${structure} 
 done
 

@@ -89,6 +89,30 @@ mv params.ini.bak params.ini
 mv atomtypes.ini atomtypes.ini-
 """
 
+def obtainMeanTopSurfaceZ(atoms, threshold=8.5):
+    """
+    Obtain the mean Z-coordinate of the top surface Ca atoms in the structure.
+
+    Parameters:
+    atoms (Atoms): ASE Atoms object representing the structure.
+    threshold (float): Z-coordinate threshold to define the top Ca surface.
+
+    Returns:
+    float: Mean Z-coordinate of the top surface Ca atoms.
+    """
+
+    Ca_atoms = atoms[[atom.symbol == 'Ca' for atom in atoms]]
+    top_Ca_atoms = Ca_atoms[[atom.position[2] > threshold for atom in Ca_atoms]]
+
+    # Check the numbeer of top surface Ca atoms, it should be 16 Ca atoms, if not, raise an error
+    if len(top_Ca_atoms) != 16:
+        raise ValueError(f"Expected 16 top surface Ca atoms, but found {len(top_Ca_atoms)}")
+
+    # Calculate the mean Z-coordinate of the top surface Ca atoms use the center of mass
+    mean_top_surface_z = top_Ca_atoms.get_center_of_mass()[2]
+    #mean_top_surface_z = sum([atom.position[2] for atom in top_Ca_atoms]) / len(top_Ca_atoms)
+    return mean_top_surface_z
+
 
 def main(atoms_list, **kwargs):
     import numpy as np
@@ -106,13 +130,15 @@ def main(atoms_list, **kwargs):
     gridB = " ".join(map(str, cell[1, :]))
     gridC = " ".join(map(str, cell[2, :]))
 
-    # scan data
     # Probe Particle recommends heighest atom + r0Probe[z] (2.7A) for scanMin
-    # but we let the tip crash
+    # but we let the tip crash to the top surface 
+    meanTopCaAtomsZ = obtainMeanTopSurfaceZ(atoms_list[0], threshold=z_top_layer) 
     scanMin = np.array([
         -scan_xy_buffer,
         -scan_xy_buffer,
-        atoms_list[0].positions[:, 2].max()
+        #atoms_list[0].positions[:, 2].max()
+        meanTopCaAtomsZ
+
     ])
     scanMax = cell.sum(axis=1)
     scanMax[0] += scan_xy_buffer
