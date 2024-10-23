@@ -63,7 +63,7 @@ params = {'ChargeCuUp': -0.0669933,
           'Okrad': 20,
           'Amp': 7,
           'z_top_layer': 8.5,           # Z to remove atoms so only top layer atoms are added to input_plot.xyz and used for Pauli fitting in OpenCL branch
-          'scan_xy_buffer': 6.74           # xy buffer in Angstram (A) to extend the scanning
+          'scan_xy_buffer': 2           # xy buffer in Angstram (A) to extend the scanning
          }
 
 runner_data = RunnerData('get_ppm_data')
