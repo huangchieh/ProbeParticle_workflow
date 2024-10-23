@@ -104,9 +104,22 @@ def obtainMeanTopSurfaceZ(atoms, threshold=8.5):
     Ca_atoms = atoms[[atom.symbol == 'Ca' for atom in atoms]]
     top_Ca_atoms = Ca_atoms[[atom.position[2] > threshold for atom in Ca_atoms]]
 
-    # Check the numbeer of top surface Ca atoms, it should be 16 Ca atoms, if not, raise an error
-    if len(top_Ca_atoms) != 16:
-        raise ValueError(f"Expected 16 top surface Ca atoms, but found {len(top_Ca_atoms)}")
+    # Get the maximum and minimum z-values
+    z_values = top_Ca_atoms.get_positions()[:, 2]  # Get z-coordinates ([:, 2] extracts the z-component)
+    z_max = z_values.max()
+    z_min = z_values.min()
+    
+    # Define a threshold for layer thickness (adjust according to your system)
+    layer_threshold = 1.5  # Example value based on typical interlayer spacing
+    
+    # Check if the range of z-values exceeds the threshold
+    if (z_max - z_min) > layer_threshold:
+        raise ValueError(f"Selected atoms seem to span multiple layers: z-range = {z_max - z_min}")
+
+
+    ## Check the numbeer of top surface Ca atoms, it should be 16 Ca atoms, if not, raise an error
+    #if len(top_Ca_atoms) != 16:
+    #    raise ValueError(f"Expected 16 top surface Ca atoms, but found {len(top_Ca_atoms)}")
 
     # Calculate the mean Z-coordinate of the top surface Ca atoms use the center of mass
     mean_top_surface_z = top_Ca_atoms.get_center_of_mass()[2]
